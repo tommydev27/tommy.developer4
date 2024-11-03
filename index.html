@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" />
+    <title>tommy.developer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            justify-content: center;
+            background-color: white;
+            color: #333;
+            text-align: center;
+
+}
+        }
+
+        /* Menentukan posisi teks */
+        .text {
+            margin: 100px 0 0 10;  /* Menggeser teks ke bawah dengan margin atas */
+        }
+
+        /* Bagian teks nama (depan, tengah, belakang) */
+        label {
+            font-size: 1em;
+            color: #007bff;
+            display: block;
+            margin: 10px 0 0px; /* Mengatur margin atas dan bawah untuk menggeser label */
+
+        }
+
+        /* Bagian kolom isi */
+        input[type="text"], input[type="file"], input[type="email"] {
+            padding: 8px 15px; /* Sesuaikan padding */
+            margin-top: 10px; /* Mengurangi margin */
+            font-size: 1em;
+            color: black;
+            background-color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 1px 5px rgb(0, 0, 0);
+            width: calc(100% - 30px); /* Lebar penuh dengan margin */
+        }
+
+        /* Bagian tombol */
+        button[type="submit"] {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 50px; /* radius untuk tombol */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            margin-top: 20px; /* Tambahkan margin atas */
+            width: 100%; /* Lebar penuh tombol */
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* Bagian footer */
+footer {
+    margin: -10px 0; /* Menggeser teks dengan margin atas dan bawah */
+    font-size: 10px;
+    color: #007bff;
+    text-align: center;
+    transition: color 0.3s ease;
+    display: block; /* Menggunakan block untuk memastikan margin berfungsi dengan baik */
+}
+
+
+        /* Bagian notifikasi respon */
+        #responseMessage {
+            padding: 10px 20px;
+            margin-top: 15px;
+            font-size: 1em;
+            color: white;
+            background-color: white; /* Warna default untuk kesalahan */
+            border-radius: 0px; /* radius untuk kolom respon */
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Warna saat respon sukses */
+        #responseMessage.success {
+            background-color: #28a745; /* Warna hijau untuk sukses */
+        }
+
+        /* Warna saat respon gagal */
+        #responseMessage.error {
+            background-color: #ff4444; /* Warna merah untuk kesalahan */
+        }
+a {
+    font-size: 0.8em; /* Mengurangi ukuran font menjadi 80% dari ukuran default */
+    color: #007bff;  /* Warna teks */
+    text-decoration: none; /* Menghapus garis bawah */
+    transition: color 0.3s ease; /* Transisi warna saat hover */
+    margin: 20px 0; /* Menggeser teks dengan margin atas dan bawah */
+    display: inline-block; /* Agar margin berfungsi dengan baik */
+}
+
+a:hover {
+    color: #0056b3; /* Mengubah warna saat hover */
+}
+
+
+a:hover {
+    color: #0056b3; /* Mengubah warna saat hover */
+}
+
+    </style>
+</head>
+<body>
+    <form method="post" action="/a/help/contact_us/" id="name_change_v3" onsubmit="submitForm(event)">
+        <h3>Mengubah Nama</h3>
+        <p>Isi File Jika Perlukan</p>
+        
+        <input type="file" name="Field521883071208464[]" accept="image/*" multiple>
+
+        <label>Nama Depan</label>
+        <input name="new_first_name" type="text" required maxlength="255">
+
+        <label>Nama Tengah (Opsional)</label>
+        <input name="new_middle_name" type="text" maxlength="255">
+
+        <label>Nama Belakang</label>
+        <input name="new_last_name" type="text" required maxlength="255">
+
+        <label>Email Kontak</label>
+        <input name="ContactEmail" type="text" required maxlength="225">
+
+        <button type="submit">Ajukan</button>
+
+        <!-- Elemen untuk notifikasi respon -->
+        <div id="responseMessage"></div>
+        <a href="https://www.facebook.com/help/159096464162185">Kunjungi pusat bantuan</a>
+    </form>
+
+    <footer>Design Tommy | Versi 1.0</footer>
+
+    <script>
+    async function submitForm(event) {
+        event.preventDefault();
+        const form = document.getElementById('name_change_v3');
+        const formData = new FormData(form);
+        const responseMessage = document.getElementById('responseMessage');
+        responseMessage.innerText = "Sedang mengirim data...";
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer YOUR_ACCESS_TOKEN',
+                },
+                body: formData
+            });
+
+            const contentType = response.headers.get("content-type");
+
+            if (response.ok) {
+                let result;
+                if (contentType && contentType.includes("application/json")) {
+                    result = await response.json();
+                    responseMessage.style.color = "green";
+                    responseMessage.innerText = "Data berhasil dikirim: " + (result.message || "Permintaan berhasil");
+                } else {
+                    result = await response.text();
+                    // Cek apakah ada teks "60 hari terakhir" dalam respons
+                    if (result.includes("60 hari terakhir")) {
+                        responseMessage.style.color = "red";
+                        responseMessage.innerText = "Terjadi Kesalahan: Kami tidak bisa menerima permintaan ini karena Anda sudah mengirim permintaan perubahan nama dalam 60 hari terakhir.";
+                    } else {
+                        responseMessage.style.color = "green";
+                        responseMessage.innerText = "Data berhasil dikirim, respon server: " + result;
+                    }
+                }
+            } else {
+                responseMessage.style.color = "red";
+                responseMessage.innerText = "Gagal menghubungkan ke server. Silakan coba lagi.";
+            }
+        } catch (error) {
+            responseMessage.style.color = "red";
+            responseMessage.innerText = error.message;
+        }
+    }
+    </script>
+</body>
+</html>
